@@ -1,0 +1,29 @@
+{
+  "stocks": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "TSLA",
+    "AMD",
+    "NFLX",
+    "META",
+    "GOOGL",
+    "AMZN"
+  ],
+  "crypto": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD",
+    "XRP-USD"
+  ],
+  "metals": [
+    "GC=F",
+    "SI=F"
+  ],
+  "etfs": [
+    "SPY",
+    "QQQ",
+    "DIA",
+    "IWM"
+  ]
+}
