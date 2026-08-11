@@ -10,6 +10,7 @@ import pandas as pd
 from pandas.errors import EmptyDataError
 from streamlit_autorefresh import st_autorefresh
 from style import inject_base_css, page_header, section_header, metric_card, GREEN, RED
+from core.paths import OUTPUT_DIR
 
 st.set_page_config(layout="wide")
 inject_base_css()
@@ -26,8 +27,8 @@ def load(path):
         return pd.DataFrame()
 
 
-open_df = load("data/open_positions.csv")
-closed_df = load("data/closed_positions.csv")
+open_df = load(OUTPUT_DIR / "open_positions.csv")
+closed_df = load(OUTPUT_DIR / "closed_positions.csv")
 
 win_rate = (closed_df["pnl_pct"] > 0).mean() * 100 if not closed_df.empty else 0
 avg_pnl = closed_df["pnl_pct"].mean() if not closed_df.empty else 0

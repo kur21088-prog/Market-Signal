@@ -6,9 +6,10 @@ from core.data import download
 from core.features import add_features
 from core.signals import make_signal, load_model
 from core.positions import open_new_positions, update_open_positions
+from core.paths import OUTPUT_DIR, WATCHLIST_SHORT
 
-WATCHLIST = Path("data/watchlist.json")
-OUTPUT = Path("data/signals.csv")
+WATCHLIST = WATCHLIST_SHORT
+OUTPUT = OUTPUT_DIR / "signals.csv"
 
 SPARK_BARS = 20  # how many recent closes to keep for the sparkline chart
 

@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from pathlib import Path
 import joblib
 import pandas as pd
 from core.features import FEATURE_COLUMNS
+from core.paths import MODELS_DIR
 
-MODEL_PATH = Path("models/market_ai_v2.pkl")
+MODEL_PATH = MODELS_DIR / "market_ai_v2.pkl"
 
 
 @dataclass

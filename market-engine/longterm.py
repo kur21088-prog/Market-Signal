@@ -6,10 +6,11 @@ from core.data import download
 from core.features_lt import add_features_lt
 from core.signals_lt import make_longterm_signal
 from core.portfolio import build_allocation
+from core.paths import OUTPUT_DIR, WATCHLIST_LONG
 
-WATCHLIST = Path("data/watchlist_longterm.json")
-SIGNALS_OUT = Path("data/longterm_signals.csv")
-ALLOC_OUT = Path("data/portfolio_allocation.csv")
+WATCHLIST = WATCHLIST_LONG
+SIGNALS_OUT = OUTPUT_DIR / "longterm_signals.csv"
+ALLOC_OUT = OUTPUT_DIR / "portfolio_allocation.csv"
 
 SPARK_BARS = 30  # how many recent daily closes to keep for the sparkline chart
 

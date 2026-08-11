@@ -14,6 +14,7 @@ from style import (
     inject_base_css, page_header, section_header, metric_card,
     GREEN, RED, with_signal_labels, parse_spark_column,
 )
+from core.paths import OUTPUT_DIR
 
 st.set_page_config(page_title="Market AI Engine", page_icon="📈", layout="wide")
 inject_base_css()
@@ -30,7 +31,7 @@ if st.button("▶️ Run Scan Now", type="primary"):
             st.error(f"Scan failed: {e}")
     st.rerun()
 
-signals_file = Path("data/signals.csv")
+signals_file = OUTPUT_DIR / "signals.csv"
 try:
     df = pd.read_csv(signals_file) if signals_file.exists() else pd.DataFrame()
 except EmptyDataError:

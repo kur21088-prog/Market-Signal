@@ -11,6 +11,7 @@ from pandas.errors import EmptyDataError
 from streamlit_autorefresh import st_autorefresh
 from scanner import run_scan
 from style import inject_base_css, page_header, section_header, GREEN, RED, parse_spark_column
+from core.paths import OUTPUT_DIR
 
 st.set_page_config(layout="wide")
 inject_base_css()
@@ -27,7 +28,7 @@ if st.button("▶️ Run Scan Now", type="primary"):
             st.error(f"Scan failed: {e}")
     st.rerun()
 
-file = Path("data/signals.csv")
+file = OUTPUT_DIR / "signals.csv"
 try:
     df = pd.read_csv(file) if file.exists() else pd.DataFrame()
 except EmptyDataError:

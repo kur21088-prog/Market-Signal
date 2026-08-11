@@ -1,9 +1,10 @@
 from pathlib import Path
 from datetime import datetime, timezone
 import pandas as pd
+from core.paths import OUTPUT_DIR
 
-OPEN_FILE = Path("data/open_positions.csv")
-CLOSED_FILE = Path("data/closed_positions.csv")
+OPEN_FILE = OUTPUT_DIR / "open_positions.csv"
+CLOSED_FILE = OUTPUT_DIR / "closed_positions.csv"
 
 OPEN_COLUMNS = [
     "id", "symbol", "signal", "entry", "target1", "target2", "stop_loss",

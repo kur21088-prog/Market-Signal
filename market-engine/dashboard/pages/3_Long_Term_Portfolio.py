@@ -14,6 +14,7 @@ from style import (
     inject_base_css, page_header, section_header, metric_card,
     GREEN, RED, BLUE, AMBER, with_signal_labels, parse_spark_column,
 )
+from core.paths import OUTPUT_DIR
 
 st.set_page_config(layout="wide")
 inject_base_css()
@@ -38,8 +39,8 @@ def load(path):
         return pd.DataFrame()
 
 
-signals_df = load("data/longterm_signals.csv")
-alloc_df = load("data/portfolio_allocation.csv")
+signals_df = load(OUTPUT_DIR / "longterm_signals.csv")
+alloc_df = load(OUTPUT_DIR / "portfolio_allocation.csv")
 
 strong = int((signals_df["rating"] == "STRONG_HOLD").sum()) if not signals_df.empty else 0
 hold = int((signals_df["rating"] == "HOLD").sum()) if not signals_df.empty else 0

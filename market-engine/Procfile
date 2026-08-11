@@ -1,0 +1,1 @@
+web: sh -c "(while true; do python scripts/live_loop.py; echo 'live_loop crashed, restarting in 10s'; sleep 10; done) & streamlit run dashboard/Home.py --server.address 0.0.0.0 --server.port $PORT --server.headless true --browser.gatherUsageStats false"

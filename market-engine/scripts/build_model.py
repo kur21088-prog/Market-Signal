@@ -9,8 +9,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from core.data import download
 from core.features import add_features, FEATURE_COLUMNS
+from core.paths import MODELS_DIR, WATCHLIST_SHORT
 
-with open("data/watchlist.json") as f:
+with open(WATCHLIST_SHORT) as f:
     groups = json.load(f)
 
 # Train on every symbol the scanner actually watches, not a subset,
@@ -61,6 +62,6 @@ print(f"Trained on {len(symbols)} symbols, {len(data)} total rows")
 print(f"Out-of-time accuracy: {accuracy_score(y_test, pred):.2%}")
 print(classification_report(y_test, pred, target_names=["DOWN", "UP"], digits=3))
 
-Path("models").mkdir(exist_ok=True)
-joblib.dump(model, "models/market_ai_v2.pkl")
-print("Saved models/market_ai_v2.pkl")
+model_path = MODELS_DIR / "market_ai_v2.pkl"
+joblib.dump(model, model_path)
+print(f"Saved {model_path}")
