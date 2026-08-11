@@ -2,7 +2,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scanner import run_scan
+from longterm import run_longterm_scan
 
 if __name__ == "__main__":
-    run_scan()
+    run_longterm_scan()

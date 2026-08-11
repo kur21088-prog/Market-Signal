@@ -1,0 +1,6 @@
+{
+  "broad_etf": ["SPY", "QQQ", "DIA", "VOO"],
+  "dividend_etf": ["SCHD", "VYM", "VIG"],
+  "blue_chip": ["AAPL", "MSFT", "JNJ", "PG", "KO", "JPM", "V"],
+  "defensive": ["GLD"]
+}

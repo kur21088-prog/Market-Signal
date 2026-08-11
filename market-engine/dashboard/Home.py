@@ -1,14 +1,27 @@
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 import streamlit as st
 import pandas as pd
-from pathlib import Path
 from pandas.errors import EmptyDataError
 from streamlit_autorefresh import st_autorefresh
+from scanner import run_scan
 
 st.set_page_config(page_title="Market AI Engine", page_icon="📈", layout="wide")
 st_autorefresh(interval=60000, key="home_refresh")
 
 st.title("📈 Market AI Engine")
 st.caption("Paper-trading-first market scanner")
+
+if st.button("▶️ Run Scan Now", type="primary"):
+    with st.spinner("Scanning watchlist... this can take up to a minute."):
+        try:
+            run_scan()
+            st.success("Scan complete.")
+        except Exception as e:
+            st.error(f"Scan failed: {e}")
+    st.rerun()
 
 signals_file = Path("data/signals.csv")
 
@@ -27,7 +40,7 @@ st.divider()
 st.subheader("⭐ Top Opportunities")
 
 if df.empty:
-    st.info("Run: python scripts/run_scan.py")
+    st.info("No signals yet — press Run Scan Now above.")
 else:
     show = df.sort_values("confidence", ascending=False).head(10)
     st.dataframe(show, use_container_width=True, hide_index=True)
