@@ -10,6 +10,8 @@ from core.positions import open_new_positions, update_open_positions
 WATCHLIST = Path("data/watchlist.json")
 OUTPUT = Path("data/signals.csv")
 
+SPARK_BARS = 20  # how many recent closes to keep for the sparkline chart
+
 
 def run_scan(interval="15m", period="30d", min_confidence=80, manage_positions=True):
     with WATCHLIST.open() as f:
@@ -35,6 +37,8 @@ def run_scan(interval="15m", period="30d", min_confidence=80, manage_positions=T
             signal = make_signal(symbol, df, timeframe=interval, min_confidence=min_confidence, model=model)
             d = asdict(signal)
             if signal.signal in ("BUY", "SELL"):
+                spark = df["Close"].tail(SPARK_BARS).round(2).tolist() if not df.empty else []
+                d["spark"] = json.dumps(spark)
                 rows.append(d)
             print(f"{symbol}: {signal.signal} | {signal.confidence}%")
         except Exception as e:

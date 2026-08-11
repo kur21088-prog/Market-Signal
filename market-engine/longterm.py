@@ -11,6 +11,8 @@ WATCHLIST = Path("data/watchlist_longterm.json")
 SIGNALS_OUT = Path("data/longterm_signals.csv")
 ALLOC_OUT = Path("data/portfolio_allocation.csv")
 
+SPARK_BARS = 30  # how many recent daily closes to keep for the sparkline chart
+
 
 def run_longterm_scan(period="2y", interval="1d"):
     with WATCHLIST.open() as f:
@@ -23,7 +25,10 @@ def run_longterm_scan(period="2y", interval="1d"):
         try:
             df = add_features_lt(download(symbol, period=period, interval=interval))
             sig = make_longterm_signal(symbol, df)
-            rows.append(asdict(sig))
+            d = asdict(sig)
+            spark = df["Close"].tail(SPARK_BARS).round(2).tolist() if not df.empty else []
+            d["spark"] = json.dumps(spark)
+            rows.append(d)
             print(f"{symbol}: {sig.rating} | trend {sig.trend_score} | vol {sig.volatility}%")
         except Exception as e:
             print(f"{symbol}: ERROR | {e}")
