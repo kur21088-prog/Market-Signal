@@ -10,7 +10,7 @@ import pandas as pd
 from pandas.errors import EmptyDataError
 from streamlit_autorefresh import st_autorefresh
 from scanner import run_scan
-from style import inject_base_css, page_header, section_header, GREEN, RED, parse_spark_column
+from style import inject_base_css, page_header, section_header, beginner_tip, GREEN, RED, parse_spark_column
 from core.paths import OUTPUT_DIR
 
 st.set_page_config(layout="wide")
@@ -18,6 +18,16 @@ inject_base_css()
 st_autorefresh(interval=60000, key="scanner_refresh")
 
 page_header("📡 Live Market Scanner", "Short-term BUY/SELL setups from the 15-minute scan.")
+
+beginner_tip("How to read a signal", """
+<b>Entry</b> is the suggested price to buy (or sell) at. <b>Target 1</b> and
+<b>Target 2</b> are price levels where it may make sense to take profit —
+Target 1 first, Target 2 if it keeps moving your way. <b>Stop</b> is your exit
+if the trade goes against you — this limits how much you could lose. A simple
+rule for beginners: only act on signals with <b>80%+ confidence</b>, and never
+risk more than you're prepared to lose. This scanner already opens a pretend
+position for you automatically — see the <b>Paper Wallet</b> page to track it.
+""")
 
 if st.button("▶️ Run Scan Now", type="primary"):
     with st.spinner("Scanning watchlist... this can take up to a minute."):

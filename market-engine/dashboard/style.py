@@ -124,6 +124,22 @@ def metric_card(label: str, value: str, sub: str = "", sub_color: str = MUTED):
     """, unsafe_allow_html=True)
 
 
+def beginner_tip(title: str, body_html: str):
+    """Plain-language directive callout for someone new to investing.
+    body_html can contain simple <b>/<br> tags."""
+    st.markdown(f"""
+    <div style="background:{CARD}; border-left:3px solid {GREEN}; border-radius:10px;
+                padding:16px 18px; margin-bottom:18px;">
+        <div style="color:{GREEN}; font-weight:700; font-size:13px; margin-bottom:6px;">
+            💡 {title}
+        </div>
+        <div style="color:{TEXT}; font-size:14px; line-height:1.6;">
+            {body_html}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+
 def pnl_color(value: float) -> str:
     return GREEN if value >= 0 else RED
 

@@ -11,15 +11,26 @@ import plotly.graph_objects as go
 from pandas.errors import EmptyDataError
 from longterm import run_longterm_scan
 from style import (
-    inject_base_css, page_header, section_header, metric_card,
+    inject_base_css, page_header, section_header, metric_card, beginner_tip,
     GREEN, RED, BLUE, AMBER, with_signal_labels, parse_spark_column,
 )
 from core.paths import OUTPUT_DIR
+from core import wallet as wallet_module
 
 st.set_page_config(layout="wide")
 inject_base_css()
 
 page_header("🌳 Long-Term Hold & Portfolio", "Daily-bar trend signals (weeks-to-months hold) on a separate, more conservative watchlist.")
+
+beginner_tip("How to use this page", """
+This isn't about quick trades — it's a mix of steady, longer-term investments
+(broad ETFs, dividend funds, blue-chip stocks) meant to be held for
+<b>months, not days</b>. <b>🟢 STRONG HOLD</b> and <b>🔵 HOLD</b> are good
+candidates; <b>🔴 AVOID</b> means skip it for now. The pie chart below shows
+what % of your money the model suggests putting toward each — the dollar
+table underneath turns that into actual amounts based on your Paper Wallet
+balance, so you know exactly how much to "invest" in each one.
+""")
 
 if st.button("▶️ Run Long-Term Scan Now", type="primary"):
     with st.spinner("Scanning long-term watchlist... this can take a minute."):
@@ -98,6 +109,27 @@ else:
     st.caption(
         "Weighted toward stronger trend and lower volatility, capped per position for "
         "diversification. This is a suggested target allocation, not a guarantee of returns."
+    )
+
+    w = wallet_module.load_wallet()
+    section_header(f"💵 What that means in dollars (Paper Wallet: ${w['cash']:,.2f} available)")
+    dollar_df = alloc_df[["symbol", "weight_pct", "rating"]].copy()
+    dollar_df["invest_amount"] = (dollar_df["weight_pct"] / 100.0 * w["cash"]).round(2)
+    st.dataframe(
+        dollar_df,
+        width="stretch",
+        hide_index=True,
+        column_config={
+            "symbol": st.column_config.TextColumn("Symbol"),
+            "weight_pct": st.column_config.NumberColumn("Target Weight", format="%.1f%%"),
+            "rating": st.column_config.TextColumn("Rating"),
+            "invest_amount": st.column_config.NumberColumn("Suggested $ Amount", format="$%.2f"),
+        },
+    )
+    st.caption(
+        "This is a guide, not an automatic trade — the Paper Wallet only auto-invests in "
+        "short-term signals from the Live Scanner. Use these numbers as a reference for how "
+        "you'd spread money across a long-term mix."
     )
 
 section_header("📋 All Long-Term Signals")

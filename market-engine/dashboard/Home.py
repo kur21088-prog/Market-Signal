@@ -11,7 +11,7 @@ from pandas.errors import EmptyDataError
 from streamlit_autorefresh import st_autorefresh
 from scanner import run_scan
 from style import (
-    inject_base_css, page_header, section_header, metric_card,
+    inject_base_css, page_header, section_header, metric_card, beginner_tip,
     GREEN, RED, with_signal_labels, parse_spark_column,
 )
 from core.paths import OUTPUT_DIR
@@ -21,6 +21,15 @@ inject_base_css()
 st_autorefresh(interval=60000, key="home_refresh")
 
 page_header("📈 Market AI Engine", "Paper-trading-first market scanner — short-term signals, long-term holds, and a steady-growth portfolio.")
+
+beginner_tip("New here? Start with this", """
+This page shows stocks and crypto with a strong signal <b>right now</b>.
+<b>🟢 BUY</b> means the price looks likely to rise short-term. <b>🔴 SELL</b> means it looks likely to fall.
+The confidence bar shows how strong the signal is — as a beginner, focus only on signals
+<b>80% and above</b>, and treat lower ones as noise. Everything here uses pretend money
+(paper trading) so you can practice without risk — check the <b>Paper Wallet</b> page to
+see how your signals would actually perform in dollars.
+""")
 
 if st.button("▶️ Run Scan Now", type="primary"):
     with st.spinner("Scanning watchlist... this can take up to a minute."):
